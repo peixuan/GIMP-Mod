@@ -181,11 +181,13 @@ static void
 gimp_operation_tile_source_prepare (GeglOperation *operation)
 {
   GimpOperationTileSource *self = GIMP_OPERATION_TILE_SOURCE (operation);
+  const Babl *format;
+  format = gimp_bpp_to_babl_format (tile_manager_bpp (self->tile_manager),
+      self->linear);
 
   if (self->tile_manager)
     {
-      gegl_operation_set_format (operation, "output",
-                                 babl_format ("RaGaBaA float"));
+      gegl_operation_set_format (operation, "output", format);
     }
 }
 

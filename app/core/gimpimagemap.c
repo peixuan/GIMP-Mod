@@ -700,11 +700,15 @@ gimp_image_map_do (GimpImageMap *image_map)
       if (! pending)
         {
           if (image_map->timer)
-            g_printerr ("%s: %g MPixels/sec\n",
-                        image_map->undo_desc,
-                        (gdouble) image_map->pixel_count /
-                        (1000000.0 *
-                         g_timer_elapsed (image_map->timer, NULL)));
+            {
+              double tmpTimer = 1000000.0 *
+                  g_timer_elapsed (image_map->timer, NULL);
+              g_printerr ("%s: %g MPixels/sec, Total %.6f MPixels, use %.3f ms\n",
+                  image_map->undo_desc,
+                  (gdouble) image_map->pixel_count / tmpTimer,
+                  (gdouble) image_map->pixel_count / 1000000.0,
+                  tmpTimer / 1000.0);
+            }
 
           g_object_unref (image_map->processor);
           image_map->processor = NULL;
@@ -776,11 +780,15 @@ gimp_image_map_do (GimpImageMap *image_map)
           if (image_map->PRI == NULL)
             {
               if (image_map->timer)
-                g_printerr ("%s: %g MPixels/sec\n",
-                            image_map->undo_desc,
-                            (gdouble) image_map->pixel_count /
-                            (1000000.0 *
-                             g_timer_elapsed (image_map->timer, NULL)));
+                {
+                  double tmpTimer = 1000000.0 *
+                      g_timer_elapsed (image_map->timer, NULL);
+                  g_printerr ("%s: %g MPixels/sec, Total %.6f MPixels, use %.3f ms\n",
+                      image_map->undo_desc,
+                      (gdouble) image_map->pixel_count / tmpTimer,
+                      (gdouble) image_map->pixel_count / 1000000.0,
+                      tmpTimer / 1000.0);
+                }
 
               image_map->idle_id = 0;
 
